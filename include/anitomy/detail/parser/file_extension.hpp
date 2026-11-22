@@ -6,6 +6,7 @@
 #include <span>
 
 #include <anitomy/detail/token.hpp>
+#include <anitomy/detail/util.hpp>
 #include <anitomy/element.hpp>
 
 namespace anitomy::detail {
@@ -35,8 +36,11 @@ inline std::optional<Element> parse_file_extension(std::span<Token> tokens) noex
   using namespace std::views;
 
   static constexpr auto is_file_extension = [](const Token& token) {
+    // Extensions are matched regardless of case, e.g. "MOV" from a phone camera
     return (is_keyword_token(token) || is_text_token(token)) &&
-           std::ranges::contains(file_extensions, token.value);
+           std::ranges::any_of(file_extensions, [&token](std::string_view extension) {
+             return equal(token.value, extension);
+           });
   };
 
   static constexpr auto is_dot = [](const Token& token) {

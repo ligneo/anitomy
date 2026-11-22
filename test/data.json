@@ -28,6 +28,17 @@
         }
     },
     {
+        "input": "[ANBU]_Princess_Lover!_-_01_[2048A39A].MKV",
+        "mal_id": 6201,
+        "output": {
+            "release_group": "ANBU",
+            "title": "Princess Lover!",
+            "episode": "01",
+            "file_checksum": "2048A39A",
+            "file_extension": "MKV"
+        }
+    },
+    {
         "input": "[ANBU-Menclave]_Canaan_-_01_[1024x576_H.264_AAC][12F00E89].mkv",
         "mal_id": 5356,
         "output": {
