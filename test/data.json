@@ -28,6 +28,16 @@
         }
     },
     {
+        "input": "[Erai-raws] One Piece - 1080 [WEB].mkv",
+        "output": {
+            "release_group": "Erai-raws",
+            "title": "One Piece",
+            "episode": "1080",
+            "source": "WEB",
+            "file_extension": "mkv"
+        }
+    },
+    {
         "input": "[Kaleido-subs] Blue Archive the Animation - 07 (S01E07) [WEB 1080p].mkv",
         "output": {
             "release_group": "Kaleido-subs",
