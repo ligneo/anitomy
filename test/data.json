@@ -28,6 +28,30 @@
         }
     },
     {
+        "input": "[Kaleido-subs] Blue Archive the Animation - 07 (S01E07) [WEB 1080p].mkv",
+        "output": {
+            "release_group": "Kaleido-subs",
+            "title": "Blue Archive the Animation",
+            "season": "01",
+            "episode": "07",
+            "source": "WEB",
+            "video_resolution": "1080p",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "[GJM] Honzuki no Gekokujou - 46 (S04E10) [WEB 1080p].mkv",
+        "output": {
+            "release_group": "GJM",
+            "title": "Honzuki no Gekokujou",
+            "season": "04",
+            "episode": "10",
+            "source": "WEB",
+            "video_resolution": "1080p",
+            "file_extension": "mkv"
+        }
+    },
+    {
         "input": "[ANBU]_Princess_Lover!_-_01_[2048A39A].MKV",
         "mal_id": 6201,
         "output": {

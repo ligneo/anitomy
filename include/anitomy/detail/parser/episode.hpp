@@ -1,6 +1,8 @@
 #pragma once
 
+#include <algorithm>
 #include <format>
+#include <optional>
 #include <ranges>
 #include <regex>
 #include <set>
@@ -95,7 +97,23 @@ inline std::vector<Element> parse_episode(std::span<Token> tokens) noexcept {
       return true;
     };
 
+    // A number set apart by a dash before `S01E07` is the same episode, or its absolute number,
+    // as in `Title - 07 (S01E07)` or `Title - 46 (S04E10)`. Marking it keeps it out of the title,
+    // while the episode is taken from the season and episode.
+    static constexpr auto mark_separated_numbers_before = [](std::span<Token> tokens,
+                                                            size_t position) {
+      for (auto it = tokens.begin(); it != tokens.end(); ++it) {
+        if (!is_dash_token(*it)) continue;
+        auto next = std::find_if(std::next(it), tokens.end(), is_not_delimiter_token);
+        if (next == tokens.end() || next->position >= position) break;
+        if (is_free_token(*next) && is_numeric_token(*next)) {
+          next->element_kind = ElementKind::Episode;
+        }
+      }
+    };
+
     auto view = tokens | filter(is_free_token);
+    std::optional<size_t> season_episode_position;
 
     for (auto token = view.begin(); token != view.end(); ++token) {
       std::pair<std::smatch, std::smatch> matches;
@@ -112,10 +130,18 @@ inline std::vector<Element> parse_episode(std::span<Token> tokens) noexcept {
       valid = is_episode_range(tokens, next_token, matches) || valid;
       if (!valid) continue;
 
+      if (!season_episode_position && (matches.first[1].matched || matches.first[2].matched)) {
+        season_episode_position = token->position;
+      }
+
       parse_matches(matches.first, *token, elements);
       if (!matches.second.empty()) {
         parse_matches(matches.second, *next_token, elements);
       }
+    }
+
+    if (season_episode_position) {
+      mark_separated_numbers_before(tokens, *season_episode_position);
     }
 
     if (!elements.empty()) return elements;
