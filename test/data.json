@@ -28,6 +28,18 @@
         }
     },
     {
+        "input": "[Group] Yofukashi no Uta - 03 [WEB 1080p EAC-3].mkv",
+        "output": {
+            "release_group": "Group",
+            "title": "Yofukashi no Uta",
+            "episode": "03",
+            "source": "WEB",
+            "video_resolution": "1080p",
+            "audio_term": "EAC-3",
+            "file_extension": "mkv"
+        }
+    },
+    {
         "input": "[Erai-raws] One Piece - 1080 [WEB].mkv",
         "output": {
             "release_group": "Erai-raws",
