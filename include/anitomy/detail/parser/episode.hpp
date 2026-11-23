@@ -232,11 +232,18 @@ inline std::vector<Element> parse_episode(std::span<Token> tokens) noexcept {
 
   // Separated number (e.g. ` - 08`)
   {
+    // The leading brackets hold the release group, whose name can end in a number (e.g. `Y-467`)
+    const auto leading_group_end = [&tokens]() {
+      if (tokens.empty() || !is_open_bracket_token(tokens.front())) return tokens.begin();
+      return std::ranges::find_if(tokens, is_close_bracket_token);
+    }();
+
     auto view = tokens | reverse | filter(is_dash_token);
 
     for (auto it = view.begin(); it != view.end(); ++it) {
       auto next_token =
           std::ranges::find_if(it.base().base(), tokens.end(), is_not_delimiter_token);
+      if (next_token < leading_group_end) continue;
       if (next_token != tokens.end() && is_free_token(*next_token) &&
           is_numeric_token(*next_token)) {
         add_element_from_token(ElementKind::Episode, *next_token);

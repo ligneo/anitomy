@@ -28,6 +28,17 @@
         }
     },
     {
+        "input": "[Y-467] Kimi no Na wa. BD 1080p [E819B791].mkv",
+        "output": {
+            "release_group": "Y-467",
+            "title": "Kimi no Na wa.",
+            "source": "BD",
+            "video_resolution": "1080p",
+            "file_checksum": "E819B791",
+            "file_extension": "mkv"
+        }
+    },
+    {
         "input": "[Group] Clannad After Story - 10 (BD 1080p) [ED204890].mkv",
         "output": {
             "release_group": "Group",
