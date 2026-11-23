@@ -152,6 +152,16 @@ private:
       return key;
     };
 
+    // A checksum can start with a prefix, as `ED` in `[ED204890]`
+    static constexpr auto is_checksum_word = [](const std::u32string_view view) {
+      const auto word = view | std::views::take_while([](char32_t ch) {
+                          return !is_word_boundary(ch);
+                        });
+      return std::ranges::distance(word) == 8 && std::ranges::all_of(word, [](char32_t ch) {
+               return ch < 0x80 && is_xdigit(static_cast<char>(ch));
+             });
+    };
+
     static constexpr auto is_keyword_boundary = [](const Keyword& keyword,
                                                    const std::u32string_view view) {
       if (keyword.is_subword()) return true;
@@ -166,6 +176,7 @@ private:
     const std::string key = find_key(view_);
 
     if (key.empty()) return {};
+    if (is_checksum_word(view_)) return {};
 
     const size_t n = key.size();
     const auto keyword = keywords[key];

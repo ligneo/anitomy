@@ -28,6 +28,18 @@
         }
     },
     {
+        "input": "[Group] Clannad After Story - 10 (BD 1080p) [ED204890].mkv",
+        "output": {
+            "release_group": "Group",
+            "title": "Clannad After Story",
+            "episode": "10",
+            "source": "BD",
+            "video_resolution": "1080p",
+            "file_checksum": "ED204890",
+            "file_extension": "mkv"
+        }
+    },
+    {
         "input": "[Group] Yofukashi no Uta - 03 [WEB 1080p EAC-3].mkv",
         "output": {
             "release_group": "Group",
