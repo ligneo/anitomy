@@ -1,11 +1,14 @@
 #pragma once
 
+#include <algorithm>
 #include <optional>
 #include <ranges>
+#include <regex>
 #include <span>
 #include <tuple>
 
 #include <anitomy/detail/token.hpp>
+#include <anitomy/detail/util.hpp>
 #include <anitomy/element.hpp>
 
 namespace anitomy::detail {
@@ -33,13 +36,30 @@ inline std::optional<Element> parse_year(std::span<Token> tokens) noexcept {
   auto view = tokens | adjacent<3> | filter(is_isolated) | filter(is_free_number) |
               filter(is_year) | take(1);
 
-  if (view.empty()) return {};
+  if (!view.empty()) {
+    auto& token = std::get<1>(view.front());
+    token.element_kind = ElementKind::Year;
+    return element_from_token(ElementKind::Year, token);
+  }
 
-  auto& token = std::get<1>(view.front());
+  // Fall back to a number right before the season (e.g. `Title.2022.S01`), which would
+  // otherwise end up in the title or be taken for an episode
+  static constexpr auto is_season = [](const Token& token) {
+    static const std::regex pattern{R"(S\d{1,2}(?:E\d{1,4})?)"};
+    return std::regex_match(token.value, pattern);
+  };
 
-  token.element_kind = ElementKind::Year;
+  for (auto it = tokens.begin(); it != tokens.end(); ++it) {
+    if (!is_free_token(*it) || !is_numeric_token(*it) || it->is_enclosed) continue;
+    const int number = to_int(it->value);
+    if (number <= 1950 || number >= 2050) continue;
+    auto next = std::find_if(std::next(it), tokens.end(), is_not_delimiter_token);
+    if (next == tokens.end() || !is_free_token(*next) || !is_season(*next)) continue;
+    it->element_kind = ElementKind::Year;
+    return element_from_token(ElementKind::Year, *it);
+  }
 
-  return element_from_token(ElementKind::Year, token);
+  return {};
 }
 
 }  // namespace anitomy::detail

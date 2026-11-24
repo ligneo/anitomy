@@ -39,6 +39,22 @@
         }
     },
     {
+        "input": "Some.Show.2019.S02.1080p.WEB-DL.AAC2.0.H.264-Group",
+        "output": {
+            "title": "Some Show",
+            "year": "2019",
+            "season": "02",
+            "video_resolution": "1080p",
+            "source": "WEB-DL",
+            "audio_term": [
+                "AAC",
+                "2.0"
+            ],
+            "video_term": "H.264",
+            "release_group": "Group"
+        }
+    },
+    {
         "input": "[Group] Clannad After Story - 10 (BD 1080p) [ED204890].mkv",
         "output": {
             "release_group": "Group",
