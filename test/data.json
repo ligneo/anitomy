@@ -89,6 +89,18 @@
         }
     },
     {
+        "input": "[Group] Title - 04 (BD 1080p DTS-HD).mkv",
+        "output": {
+            "release_group": "Group",
+            "title": "Title",
+            "episode": "04",
+            "source": "BD",
+            "video_resolution": "1080p",
+            "audio_term": "DTS-HD",
+            "file_extension": "mkv"
+        }
+    },
+    {
         "input": "[Group] Clannad After Story - 10 (BD 1080p) [ED204890].mkv",
         "output": {
             "release_group": "Group",

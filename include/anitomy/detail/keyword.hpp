@@ -132,6 +132,7 @@ constexpr auto make_base_keywords() noexcept {
           {"TrueHD", PrefixForNumber},
           {"DTS", PrefixForNumber},
           {"DTS-ES"},
+          {"DTS-HD"},
           {"FLAC", PrefixForNumber},
           {"FLACx2"},
           {"FLACx3"},
