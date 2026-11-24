@@ -118,6 +118,22 @@
         }
     },
     {
+        "input": "Title.S01E05.1080p.WEB-DL.AAC2.0.H.264-Group | Other Title",
+        "output": {
+            "title": "Title",
+            "season": "01",
+            "episode": "05",
+            "video_resolution": "1080p",
+            "source": "WEB-DL",
+            "audio_term": [
+                "AAC",
+                "2.0"
+            ],
+            "video_term": "H.264",
+            "release_group": "Group"
+        }
+    },
+    {
         "input": "[Group] Clannad After Story - 10 (BD 1080p) [ED204890].mkv",
         "output": {
             "release_group": "Group",

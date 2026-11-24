@@ -37,7 +37,13 @@ inline std::span<Token> find_release_group(std::span<Token> tokens) noexcept {
   // e.g. `Title.Episode.Info-Group.mkv`
   //                          ^----^
   if (first == tokens.end()) {
-    auto token = find_prev_token(tokens, tokens.end(), [](const Token& token) {
+    // Torrent titles can add another name after a vertical bar
+    // e.g. `Title.Episode.Info-Group | Alternative Title`
+    //                          ^----^
+    auto end = std::ranges::find_if(tokens, [](const Token& token) {
+      return is_delimiter_token(token) && token.value == "|" && !is_enclosed_token(token);
+    });
+    auto token = find_prev_token(tokens, end, [](const Token& token) {
       return token.element_kind != ElementKind::FileExtension && is_not_delimiter_token(token);
     });
     if (token != tokens.end() && is_free_token(*token)) {
