@@ -98,7 +98,7 @@ inline std::vector<Element> parse_episode(std::span<Token> tokens) noexcept {
     };
 
     // A number set apart by a dash before `S01E07` is the same episode, or its absolute number,
-    // as in `Title - 07 (S01E07)` or `Title - 46 (S04E10)`. Marking it keeps it out of the title,
+    // as in `Title - 07 (S01E07)`, `Title - 46 (S04E10)` or `Title - 18.5 - S00E05`. Marking it keeps it out of the title,
     // while the episode is taken from the season and episode.
     static constexpr auto mark_separated_numbers_before = [](std::span<Token> tokens,
                                                             size_t position) {
@@ -108,6 +108,13 @@ inline std::vector<Element> parse_episode(std::span<Token> tokens) noexcept {
         if (next == tokens.end() || next->position >= position) break;
         if (is_free_token(*next) && is_numeric_token(*next)) {
           next->element_kind = ElementKind::Episode;
+          // Take the fraction along (e.g. `- 18.5 - S00E05`)
+          auto dot = std::next(next);
+          if (dot != tokens.end() && dot->value == "." && std::next(dot) != tokens.end() &&
+              is_free_token(*std::next(dot)) && is_numeric_token(*std::next(dot))) {
+            dot->element_kind = ElementKind::Episode;
+            std::next(dot)->element_kind = ElementKind::Episode;
+          }
         }
       }
     };
