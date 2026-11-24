@@ -148,6 +148,18 @@
         }
     },
     {
+        "input": "[Group] Title - 15v2 (S02E03) [1080p].mkv",
+        "output": {
+            "release_group": "Group",
+            "title": "Title",
+            "release_version": "2",
+            "season": "02",
+            "episode": "03",
+            "video_resolution": "1080p",
+            "file_extension": "mkv"
+        }
+    },
+    {
         "input": "[Group] Clannad After Story - 10 (BD 1080p) [ED204890].mkv",
         "output": {
             "release_group": "Group",

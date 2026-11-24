@@ -149,6 +149,20 @@ inline std::vector<Element> parse_episode(std::span<Token> tokens) noexcept {
 
     if (season_episode_position) {
       mark_separated_numbers_before(tokens, *season_episode_position);
+
+      // A versioned number there (e.g. `Title - 46v2 (S04E10)`) was read as an episode of its
+      // own, which made a range out of `46` and `10`. Only its version is kept.
+      static const std::regex versioned_number{R"(\d{1,4}[vV]\d)"};
+      for (auto it = tokens.begin(); it != tokens.end(); ++it) {
+        if (!is_dash_token(*it)) continue;
+        auto next = std::find_if(std::next(it), tokens.end(), is_not_delimiter_token);
+        if (next == tokens.end() || next->position >= *season_episode_position) break;
+        if (next->element_kind != ElementKind::Episode) continue;
+        if (!std::regex_match(next->value, versioned_number)) continue;
+        std::erase_if(elements, [&next](const Element& element) {
+          return element.kind == ElementKind::Episode && element.position == next->position;
+        });
+      }
     }
 
     if (!elements.empty()) return elements;
