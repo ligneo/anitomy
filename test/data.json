@@ -55,6 +55,28 @@
         }
     },
     {
+        "input": "[Group] Title - S01E03 - The Last Episode [1080p].mkv",
+        "output": {
+            "release_group": "Group",
+            "title": "Title",
+            "season": "01",
+            "episode": "03",
+            "episode_title": "The Last Episode",
+            "video_resolution": "1080p",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "[Group] Title of the Episode E05 [1080p].mkv",
+        "output": {
+            "release_group": "Group",
+            "title": "Title of the Episode",
+            "episode": "05",
+            "video_resolution": "1080p",
+            "file_extension": "mkv"
+        }
+    },
+    {
         "input": "[Group] Clannad After Story - 10 (BD 1080p) [ED204890].mkv",
         "output": {
             "release_group": "Group",

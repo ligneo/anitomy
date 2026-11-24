@@ -1,11 +1,14 @@
 #pragma once
 
 #include <ranges>
+#include <regex>
 #include <span>
 #include <string>
 #include <vector>
 
+#include <anitomy/detail/container.hpp>
 #include <anitomy/detail/token.hpp>
+#include <anitomy/detail/util.hpp>
 #include <anitomy/element.hpp>
 #include <anitomy/options.hpp>
 
@@ -69,9 +72,21 @@ inline std::vector<Element> parse_keywords(std::span<Token> tokens,
     return token.value;
   };
 
+  // An episode keyword without a number is a word (e.g. `Title of the Episode`)
+  const auto is_word = [&tokens](std::span<Token>::iterator it) {
+    if (it->keyword->kind != Episode) return false;
+    auto next = find_next_token(tokens, it, is_not_delimiter_token);
+    if (next == tokens.end()) return true;
+    static const std::regex pattern{R"(\d{1,4}(?:[vV]\d|[ABCabc])?)"};
+    return !std::regex_match(next->value, pattern);
+  };
+
   std::vector<Element> elements;
 
-  for (auto& token : tokens | filter(is_keyword_token) | filter(is_allowed)) {
+  for (auto it = tokens.begin(); it != tokens.end(); ++it) {
+    auto& token = *it;
+    if (!is_keyword_token(token) || !is_allowed(token)) continue;
+    if (is_word(it)) continue;
     const auto element_kind = to_element_kind(token.keyword->kind);
     if (!token.keyword->is_ambiguous() || token.is_enclosed) {
       token.element_kind = element_kind;
