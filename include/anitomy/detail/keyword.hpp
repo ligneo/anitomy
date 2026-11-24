@@ -139,7 +139,7 @@ constexpr auto make_base_keywords() noexcept {
           {"FLACx4"},
           {"Lossless"},
           {"MP3"},
-          {"Opus", Ambiguous},  // e.g. "Opus.COLORs"
+          {"Opus", Ambiguous | PrefixForNumber},  // e.g. "Opus.COLORs"
           {"OGG"},
           {"Vorbis"},
         }
