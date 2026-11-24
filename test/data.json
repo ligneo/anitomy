@@ -134,6 +134,20 @@
         }
     },
     {
+        "input": "[Group] Title Vol.4 & 5 (BD 1080p FLAC)",
+        "output": {
+            "release_group": "Group",
+            "title": "Title",
+            "volume": [
+                "4",
+                "5"
+            ],
+            "source": "BD",
+            "video_resolution": "1080p",
+            "audio_term": "FLAC"
+        }
+    },
+    {
         "input": "[Group] Clannad After Story - 10 (BD 1080p) [ED204890].mkv",
         "output": {
             "release_group": "Group",

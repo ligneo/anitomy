@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <ranges>
 #include <regex>
 #include <span>
@@ -42,6 +43,17 @@ inline std::vector<Element> parse_volume(std::span<Token> tokens) noexcept {
         if (matches[2].matched) {
           elements.emplace_back(ElementKind::ReleaseVersion, matches.str(2),
                                 token->position + matches.position(2));
+        }
+
+        // Further volumes after an ampersand (e.g. `Vol.1 & 2 & 3`)
+        static constexpr auto is_ampersand = [](const Token& token) { return token.value == "&"; };
+        for (auto it = token;;) {
+          auto next = find_next_token(tokens, it, is_not_delimiter_token);
+          if (next == tokens.end() || !std::any_of(std::next(it), next, is_ampersand)) break;
+          if (!is_free_token(*next) || !is_numeric_token(*next)) break;
+          next->element_kind = ElementKind::Volume;
+          elements.emplace_back(element_from_token(ElementKind::Volume, *next));
+          it = next;
         }
       }
     }
